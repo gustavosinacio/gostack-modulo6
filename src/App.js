@@ -1,11 +1,7 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
 
 function App() {
-  return (
-    <h1>Hiya!</h1>
-  );
+  return <h1>Hiya!</h1>;
 }
 
 export default App;

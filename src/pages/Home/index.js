@@ -1,117 +1,47 @@
 import React from 'react';
 import { MdShoppingCart } from 'react-icons/md';
+import api from '../../services/api';
+import { formatPrice } from '../../util/format';
 
 import { ProductList } from './styles';
 
-export default function Home() {
-  return (
-    <ProductList>
-      <li>
-        <img
-          src="https://static.netshoes.com.br/produtos/tenis-nike-shox-nz-eu-masculino/38/D12-9970-038/D12-9970-038_detalhe2.jpg?resize=326:*"
-          alt="tenis"
-        />
-        <strong>Tênis</strong>
-        <span>R$129,90</span>
+export default class Home extends React.Component {
+  state = {
+    products: [],
+  };
 
-        <button type="button">
-          <div>
-            <MdShoppingCart size={16} color="#FFF" /> 3
-          </div>
+  async componentDidMount() {
+    const response = await api.get('products');
 
-          <span>ADICIONAR AO CARRINHO</span>
-        </button>
-      </li>
+    const data = response.data.map(product => ({
+      ...product,
+      priceFormated: formatPrice(product.price),
+    }));
 
-      <li>
-        <img
-          src="https://static.netshoes.com.br/produtos/tenis-nike-shox-nz-eu-masculino/38/D12-9970-038/D12-9970-038_detalhe2.jpg?resize=326:*"
-          alt="tenis"
-        />
-        <strong>Tênis</strong>
-        <span>R$129,90</span>
+    this.setState({ products: data });
+  }
 
-        <button type="button">
-          <div>
-            <MdShoppingCart size={16} color="#FFF" /> 3
-          </div>
+  render() {
+    const { products } = this.state;
 
-          <span>ADICIONAR AO CARRINHO</span>
-        </button>
-      </li>
+    return (
+      <ProductList>
+        {products.map(product => (
+          <li key={product.id}>
+            <img src={product.image} alt={product.title} />
+            <strong>{product.title}</strong>
+            <span>{product.priceFormated}</span>
 
-      <li>
-        <img
-          src="https://static.netshoes.com.br/produtos/tenis-nike-shox-nz-eu-masculino/38/D12-9970-038/D12-9970-038_detalhe2.jpg?resize=326:*"
-          alt="tenis"
-        />
-        <strong>Tênis</strong>
-        <span>R$129,90</span>
+            <button type="button">
+              <div>
+                <MdShoppingCart size={16} color="#FFF" /> 3
+              </div>
 
-        <button type="button">
-          <div>
-            <MdShoppingCart size={16} color="#FFF" /> 3
-          </div>
-
-          <span>ADICIONAR AO CARRINHO</span>
-        </button>
-      </li>
-
-      <li>
-        <img
-          src="https://static.netshoes.com.br/produtos/tenis-nike-shox-nz-eu-masculino/38/D12-9970-038/D12-9970-038_detalhe2.jpg?resize=326:*"
-          alt="tenis"
-        />
-        <strong>
-          Tênis Lorem ipsum dolor sit amet consectetur adipisicing elit. A
-          suscipit alias excepturi molestiae dicta illum perspiciatis quasi unde
-          sequi ea minima voluptate eligendi deserunt sint eveniet sit, nostrum
-          aperiam quod?
-        </strong>
-        <span>R$129,90</span>
-
-        <button type="button">
-          <div>
-            <MdShoppingCart size={16} color="#FFF" /> 3
-          </div>
-
-          <span>ADICIONAR AO CARRINHO</span>
-        </button>
-      </li>
-
-      <li>
-        <img
-          src="https://static.netshoes.com.br/produtos/tenis-nike-shox-nz-eu-masculino/38/D12-9970-038/D12-9970-038_detalhe2.jpg?resize=326:*"
-          alt="tenis"
-        />
-        <strong>Tênis</strong>
-        <span>R$129,90</span>
-
-        <button type="button">
-          <div>
-            <MdShoppingCart size={16} color="#FFF" /> 3
-          </div>
-
-          <span>ADICIONAR AO CARRINHO</span>
-        </button>
-      </li>
-
-      <li>
-        <img
-          src="https://static.netshoes.com.br/produtos/tenis-nike-shox-nz-eu-masculino/38/D12-9970-038/D12-9970-038_detalhe2.jpg?resize=326:*"
-          alt="tenis"
-        />
-        <strong>Tênis</strong>
-        <span>R$129,90</span>
-
-        <button type="button">
-          <div>
-            <MdShoppingCart size={16} color="#FFF" /> 3
-          </div>
-
-          <span>ADICIONAR AO CARRINHO</span>
-        </button>
-      </li>
-    </ProductList>
-  );
+              <span>ADICIONAR AO CARRINHO</span>
+            </button>
+          </li>
+        ))}
+      </ProductList>
+    );
+  }
 }

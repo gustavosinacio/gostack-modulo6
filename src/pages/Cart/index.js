@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import {
   MdRemoveCircleOutline,
   MdAddCircleOutline,
@@ -9,7 +9,8 @@ import {
 import { Container, ProductTable, Total } from './styles';
 import { mainColor } from '../../styles/colors';
 
-function Cart({ cart }) {
+function Cart() {
+  const cart = useSelector(state => state.cart);
   return (
     <Container>
       <ProductTable>
@@ -69,8 +70,4 @@ function Cart({ cart }) {
   );
 }
 
-const mapStateToProps = state => ({
-  cart: state.cart,
-});
-
-export default connect(mapStateToProps)(Cart);
+export default Cart;

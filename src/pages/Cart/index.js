@@ -1,6 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { useSelector } from 'react-redux';
 import {
   MdRemoveCircleOutline,
   MdAddCircleOutline,
@@ -21,6 +20,8 @@ function Cart({ cart, total, removeFromCart, updateAmount }) {
     updateAmount(product.id, product.amount - 1);
   }
 
+function Cart() {
+  const cart = useSelector(state => state.cart);
   return (
     <Container>
       <ProductTable>
@@ -91,23 +92,4 @@ function Cart({ cart, total, removeFromCart, updateAmount }) {
   );
 }
 
-const mapStateToProps = state => ({
-  cart: state.cart.map(product => ({
-    ...product,
-    subtotalFormated: formatPrice(product.price * product.amount),
-  })),
-  total: formatPrice(
-    state.cart.reduce(
-      (total, product) => total + product.price * product.amount,
-      0
-    )
-  ),
-});
-
-const mapDispatchToProps = dispatch =>
-  bindActionCreators(CartActions, dispatch);
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Cart);
+export default Cart;
